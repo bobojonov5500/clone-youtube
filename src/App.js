@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  Routes,
+  Route,
+  useParams,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import "./App.css";
+import Home from "./components/Home/Home";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import SearchItems from "./components/Search/search";
+import Channel from "./components/Videos/Channel";
+import WatchVideo from "./components/Videos/watch-video";
 
+const queryClient = new QueryClient();
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <QueryClientProvider client={queryClient}>
+        <Navbar />
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate to={"/home"} />} />
+          <Route path="/home/:category" element={<Home />} />
+          <Route path="/search/:id" element={<SearchItems />} />
+          <Route path="/channel/:name" element={<Channel />} />
+          <Route path="/video/:videoId" element={<WatchVideo />} />
+        </Routes> 
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      </QueryClientProvider>
     </div>
   );
 }
