@@ -8,11 +8,10 @@ function Navbar() {
     <Stack
       sx={{
         padding: 1,
-        position: "sticky",
-        top: "0",
+        position: "fixed",
         zIndex: 99,
         background: "#BAF6CA",
-        
+        width: "100%",
       }}
       direction={"row"}
       alignItems={"center"}

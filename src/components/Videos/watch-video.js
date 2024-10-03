@@ -9,27 +9,45 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import VideoCard from "./Video-card";
 
 const WatchVideo = () => {
   const { videoId } = useParams();
-  const { data, isLoading, error, isError } = useQuery(
+  const { data: videos, isLoading: isLoadingVideo, error, isError } = useQuery(
     ["watchingvideo", videoId],
     () => Apiservice.fetching(`videos?part=snippet, statistics&id=${videoId}`),
     {
       refetchOnWindowFocus: false,
     }
   );
+  const {
+    data: suggestedVideos,
+    isLoading: isLoadingSuggestedVidoes,
+    isError: suggestedVideosisError,
+    error: suggestedVideosError,
+  } = useQuery(
+    ["suggestedvideos", videoId],
+    () =>
+      Apiservice.fetching(
+        `search?part=snippet&relatedToVideoId=${videoId}&type=video`
+      ),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  console.log(suggestedVideos);
   if (isError) {
     <Typography>{error.message}</Typography>;
   }
-  return isLoading ? (
+  return isLoadingVideo ? (
     <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: "center" }}>
       Loading...
     </Typography>
   ) : (
     <Box>
-      <Stack direction={"row"}>
-        <Box sx={{}} width={"75%"}>
+      <Stack sx={{ flexDirection: { xs: "column", md: "row" } }}>
+        <Box sx={{ width: { sx: "100%", md: "75%" } }}>
           <Box sx={{ position: "relative", paddingTop: "50.25%" }}>
             <ReactPlayer
               url={`https://www.youtube.com/watch?v=${videoId}`}
@@ -45,8 +63,8 @@ const WatchVideo = () => {
             />
           </Box>
           <Box mt={"10px"} mb={"10px"} pl={"15px"}>
-            {data &&
-              data?.items[0]?.snippet?.tags?.map((tag, index) => (
+            {videos &&
+              videos?.items[0]?.snippet?.tags?.map((tag, index) => (
                 <Chip sx={{ mr: "5px", mt: "5px" }} key={index} label={tag} />
               ))}
             <Stack
@@ -58,7 +76,7 @@ const WatchVideo = () => {
               }}
             >
               <Typography width={"50%"} variant="h5">
-                {data?.items[0]?.snippet?.title}
+                {videos?.items[0]?.snippet?.title}
               </Typography>
               <Stack direction={"row"} flexWrap={"wrap"} gap={"10px"}>
                 <Typography
@@ -72,7 +90,7 @@ const WatchVideo = () => {
                 >
                   <VisibilityIcon sx={{ height: "25px" }} />
                   {parseInt(
-                    data?.items[0]?.statistics?.viewCount
+                    videos?.items[0]?.statistics?.viewCount
                   ).toLocaleString()}{" "}
                   Views
                 </Typography>
@@ -86,7 +104,7 @@ const WatchVideo = () => {
                 >
                   <FavoriteIcon sx={{ height: "25px" }} />
                   {parseInt(
-                    data?.items[0]?.statistics?.likeCount
+                    videos?.items[0]?.statistics?.likeCount
                   ).toLocaleString()}{" "}
                   Likes
                 </Typography>
@@ -100,7 +118,7 @@ const WatchVideo = () => {
                 >
                   <CommentIcon sx={{ height: "25px" }} />{" "}
                   {parseInt(
-                    data?.items[0]?.statistics?.commentCount
+                    videos?.items[0]?.statistics?.commentCount
                   ).toLocaleString()}{" "}
                   Comments
                 </Typography>
@@ -108,7 +126,7 @@ const WatchVideo = () => {
             </Stack>
 
             <Link
-              to={`/channel/${data?.items[0]?.snippet?.channelId}`}
+              to={`/channel/${videos?.items[0]?.snippet?.channelId}`}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -117,17 +135,23 @@ const WatchVideo = () => {
             >
               <Box sx={{ display: "flex", alignItems: "center", mt: "10px" }}>
                 <Avatar
-                  src={data?.items[0]?.snippet?.thumbnails?.default?.url}
+                  src={videos?.items[0]?.snippet?.thumbnails?.default?.url}
                 />
                 <Typography sx={{ ml: "5px" }}>
-                  {data?.items[0]?.snippet?.channelTitle}
+                  {videos?.items[0]?.snippet?.channelTitle}
                 </Typography>
                 <CheckCircleIcon sx={{ height: "20px", color: "grey" }} />
               </Box>
             </Link>
           </Box>
         </Box>
-        <Box>suggestion vidoes</Box>
+        <Box sx={{ pl: "15px" }} overflow={"scroll"} maxHeight={"100vh"}>
+          {suggestedVideos?.items?.map((item, index) => (
+            <Box key={index} sx={{ my: "10px" }}>
+              <VideoCard item={item} />
+            </Box>
+          ))}
+        </Box>
       </Stack>
     </Box>
   );
