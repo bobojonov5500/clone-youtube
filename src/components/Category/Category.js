@@ -8,7 +8,7 @@ const Category = ({ setSelectedCategory, selectedCategory }) => {
     setSelectedCategory(name);
   };
   return (
-    <Stack direction={"row"} sx={{ overflowX: "scroll", mt: "80px" }}>
+    <Stack direction={"row"} sx={{ overflowX: "scroll" }}>
       {category.map((item, index) => (
         <Link
           to={`/home/${item.name}`}

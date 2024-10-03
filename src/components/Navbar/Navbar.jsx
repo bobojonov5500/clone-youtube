@@ -8,7 +8,8 @@ function Navbar() {
     <Stack
       sx={{
         padding: 1,
-        position: "fixed",
+        position: "sticky",
+        top: 0,
         zIndex: 99,
         background: "#BAF6CA",
         width: "100%",
