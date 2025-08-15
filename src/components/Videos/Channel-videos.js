@@ -31,8 +31,7 @@ const ChannelVidoes = ({ name }) => {
       width={"100%"}
       direction={"row"}
       flexWrap={"wrap"}
-      justifyContent={"center"}
-      gap={2}
+      justifyContent={"space-between"}
       sx={{ padding: { xs: "20px" } }}
     >
       {data &&
@@ -40,7 +39,12 @@ const ChannelVidoes = ({ name }) => {
           <Card
             key={index}
             sx={{
-              width: { xs: "100%", sm: "360px", md: "300px" },
+              width: {
+                xs: "100%",
+                sm: "360px",
+                md: "300px",
+                marginTop: "15px",
+              },
             }}
           >
             <Link

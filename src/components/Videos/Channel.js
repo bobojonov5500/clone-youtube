@@ -67,7 +67,7 @@ const Channel = () => {
                   {data?.items[0]?.brandingSettings?.channel?.title}
                   <Checkbox disabled checked />
                 </Typography>
-                <Typography>
+                <Typography sx={{}}>
                   {data?.items[0]?.brandingSettings?.channel?.description}
                 </Typography>
               </Box>
