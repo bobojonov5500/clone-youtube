@@ -23,7 +23,7 @@ const Channel = () => {
   );
 
   return (
-    <Stack>
+    <Stack sx={{maxWidth:"1920px", margin:"0 auto", width:"100%"}}>
       <Box mt={3} sm={{ border: "1px solid red" }}>
         {isLoading && isLoading ? (
           <Typography

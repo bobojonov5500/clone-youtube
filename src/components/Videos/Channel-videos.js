@@ -25,8 +25,6 @@ const ChannelVidoes = ({ name }) => {
     <h1 style={{ textAlign: "center" }}>{error.message}</h1>;
   }
   return (
-    // {
-    // data.items.map((item)=>(
     <Stack
       width={"100%"}
       direction={"row"}
@@ -89,8 +87,6 @@ const ChannelVidoes = ({ name }) => {
           </Card>
         ))}
     </Stack>
-    //     ))
-    // }
   );
 };
 

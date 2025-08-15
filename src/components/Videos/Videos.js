@@ -6,26 +6,25 @@ const Videos = ({ data, error, isError, isLoading }) => {
   if (isError) {
     return <h3>{error.message}</h3>;
   }
+
   return (
-    <div>
-      <Stack
-        width={"100%"}
-        direction={"row"}
-        flexWrap={"wrap"}
-        justifyContent={"start"}
-        gap={2}
-      >
-        {isLoading && isLoading ? (
-          <h1>loading...</h1>
-        ) : (
-          data?.items.map((item, index) => (
-            <Box key={index}>
-              <VideoCard item={item} />
-            </Box>
-          ))
-        )}
-      </Stack>
-    </div>
+    <Stack
+      sx={{ maxWidth: "1920px", width: "100%", margin: "0 auto" }}
+      direction={"row"}
+      flexWrap={"wrap"}
+      justifyContent={"space-between"}
+      gap={2}
+    >
+      {isLoading ? (
+        <h1>loading...</h1>
+      ) : (
+        data?.items.map((item, index) => (
+          <Box key={index}>
+            <VideoCard item={item} />
+          </Box>
+        ))
+      )}
+    </Stack>
   );
 };
 
