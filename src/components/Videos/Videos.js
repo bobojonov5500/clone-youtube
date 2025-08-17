@@ -1,5 +1,5 @@
-import { Box, Stack } from "@mui/material";
 import React from "react";
+import { Grid2 } from "@mui/material";
 import VideoCard from "./Video-card";
 
 const Videos = ({ data, error, isError, isLoading }) => {
@@ -8,23 +8,28 @@ const Videos = ({ data, error, isError, isLoading }) => {
   }
 
   return (
-    <Stack
-      sx={{ maxWidth: "1920px", width: "100%", margin: "0 auto" }}
-      direction={"row"}
-      flexWrap={"wrap"}
-      justifyContent={"space-between"}
-      gap={2}
+    <Grid2
+      container
+  spacing={2}
+  justifyContent="center"
     >
       {isLoading ? (
         <h1>loading...</h1>
       ) : (
         data?.items.map((item, index) => (
-          <Box key={index}>
-            <VideoCard item={item} />
-          </Box>
+         <Grid2
+      key={index}
+  xs={12}   // mobil - 1 card
+  sm={6}    // ≥600px - 2 card
+  md={4}    // ≥900px - 3 card
+  lg={3}    // ≥1200px - 4 card
+  xl={3}    // ≥1536px - 4 card
+    >
+      <VideoCard item={item} />
+    </Grid2>
         ))
       )}
-    </Stack>
+    </Grid2>
   );
 };
 
