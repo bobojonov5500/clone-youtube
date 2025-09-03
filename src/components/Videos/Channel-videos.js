@@ -2,92 +2,71 @@ import React from "react";
 import { useQuery } from "react-query";
 import { Apiservice } from "../Service/api.service";
 import { Link } from "react-router-dom";
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardMedia,
-  Stack,
-  Typography,
-  Checkbox,
-} from "@mui/material";
+import { FiCheck } from "react-icons/fi"; // react-icons ishlatamiz
 import moment from "moment";
 
-const ChannelVidoes = ({ name }) => {
+const ChannelVideos = ({ name }) => {
   const { data, isLoading, isError, error } = useQuery(
-    ["channel-vidoes", name],
+    ["channel-videos", name],
     () => Apiservice.fetching(`search?part=snippet&channelId=${name}`),
     {
       refetchOnWindowFocus: false,
     }
   );
+
   if (isError) {
-    <h1 style={{ textAlign: "center" }}>{error.message}</h1>;
+    return <h1 className="text-center text-red-500">{error.message}</h1>;
   }
+
+  if (isLoading) {
+    return <h2 className="text-center">Loading...</h2>;
+  }
+
   return (
-    <Stack
-      width={"100%"}
-      direction={"row"}
-      flexWrap={"wrap"}
-      justifyContent={"space-between"}
-      sx={{ padding: { xs: "20px" } }}
-    >
-      {data &&
-        data.items.map((item, index) => (
-          <Card
-            key={index}
-            sx={{
-              width: {
-                xs: "100%",
-                sm: "360px",
-                md: "300px",
-                marginTop: "15px",
-              },
-            }}
-          >
-            <Link
-              style={{ textDecoration: "none" }}
-              to={`/video/${item?.id?.videoId}`}
-            >
-              <CardMedia
-                image={item?.snippet?.thumbnails?.high?.url}
-                sx={{
-                  width: { xs: "100%", sm: "360px", md: "320px" },
-                  height: "180px",
-                }}
-              />
-              <CardContent sx={{}}>
-                <Typography sx={{ fontWeight: "bold" }}>
-                  {moment(item?.snippet?.publishedAt).fromNow()}
-                </Typography>
-                <Typography>{item?.snippet?.title.slice(0, 50)}</Typography>
-                <Typography>{item?.snippet?.description}</Typography>
-              </CardContent>
-              {/* <Link
-              to={`/channel/${item?.snippet?.channelId}`}
-              style={{ textDecoration: "none" }}
-            > */}
-            </Link>
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              gap={"5px"}
-              sx={{
-                paddingLeft: "16px",
-                paddingBottom: "16px",
-              }}
-            >
-              <Avatar src={item?.snippet?.thumbnails?.high?.url} />
-              <Typography variant="subtitle2">
-                {item?.snippet?.channelTitle}
-                <Checkbox disabled checked />
-              </Typography>
-            </Stack>
-            {/* </Link> */}
-          </Card>
-        ))}
-    </Stack>
+    <div className="flex flex-wrap justify-between w-full px-5">
+      {data?.items.map((item, index) => (
+        <div
+          key={index}
+          className="w-full sm:w-[360px] md:w-[300px] mt-4 bg-white rounded-lg shadow hover:shadow-lg transition"
+        >
+          {/* Thumbnail */}
+          <Link to={`/video/${item?.id?.videoId}`} className="block">
+            <img
+              src={item?.snippet?.thumbnails?.high?.url}
+              alt={item?.snippet?.title}
+              className="w-full h-[180px] object-cover rounded-t-lg"
+            />
+
+            {/* Content */}
+            <div className="p-3">
+              <p className="font-bold text-sm text-gray-700">
+                {moment(item?.snippet?.publishedAt).fromNow()}
+              </p>
+              <h3 className="font-semibold text-base line-clamp-2">
+                {item?.snippet?.title}
+              </h3>
+              <p className="text-sm text-gray-600 line-clamp-2">
+                {item?.snippet?.description}
+              </p>
+            </div>
+          </Link>
+
+          {/* Channel Info */}
+          <div className="flex items-center gap-2 px-4 pb-4">
+            <img
+              src={item?.snippet?.thumbnails?.high?.url}
+              alt="channel avatar"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <div className="flex items-center gap-1 text-sm font-medium text-gray-800">
+              {item?.snippet?.channelTitle}
+              <FiCheck className="text-green-500" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
-export default ChannelVidoes;
+export default ChannelVideos;

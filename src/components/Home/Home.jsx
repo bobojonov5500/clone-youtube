@@ -1,4 +1,3 @@
-import { Stack, Container, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Category from "../Category/Category";
 import Videos from "../Videos/Videos";
@@ -21,16 +20,18 @@ const Home = () => {
   );
 
   return (
-    <Stack>
+    <div className="flex flex-col">
+      {/* Category bar */}
       <Category
         setSelectedCategory={setSelectedCategory}
         selectedCategory={selectedCategory}
       />
 
-      <Container sx={{ height: "90vh", padding: "20px" }} maxWidth={false}>
-        <Typography variant="h4" fontWeight="bold" mb={2}>
-          {selectedCategory} <span style={{ color: "red" }}>videos</span>
-        </Typography>
+      {/* Main content */}
+      <div className="w-full max-w-[1920px] mx-auto px-5 h-[90vh]">
+        <h2 className="text-2xl font-bold mb-4">
+          {selectedCategory} <span className="text-red-500">videos</span>
+        </h2>
 
         <Videos
           data={data}
@@ -38,8 +39,8 @@ const Home = () => {
           error={error}
           isError={isError}
         />
-      </Container>
-    </Stack>
+      </div>
+    </div>
   );
 };
 

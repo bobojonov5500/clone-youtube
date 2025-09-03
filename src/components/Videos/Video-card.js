@@ -1,121 +1,74 @@
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardMedia,
-  Stack,
-  Typography,
-  Checkbox,
-  Box,
-} from "@mui/material";
-import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const VideoCard = ({ item }) => {
   return (
-    <Card
-      sx={{
-        width: "100%",
-        maxWidth: 360,
-        height: "100%", // 🔑 teng balandlik
-        display: "flex",
-        flexDirection: "column",
-        cursor: "pointer",
-        transition: "transform 0.2s ease, box-shadow 0.2s ease",
-        "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: 3,
-        },
-      }}
+    <div
+      className="
+         h-full flex flex-col cursor-pointer
+        transition-transform duration-200 ease-in-out
+        hover:-translate-y-1 hover:shadow-md rounded-lg
+        shadow-md 
+      "
     >
       {/* Thumbnail */}
-      <Link
-        style={{ textDecoration: "none", color: "#212121" }}
-        to={`/video/${item?.id?.videoId}`}
-      >
-        <Box sx={{ position: "relative", width: "100%", aspectRatio: "16/9" }}>
-          <CardMedia
-            component="img"
-            image={item?.snippet?.thumbnails?.high?.url}
+      <Link to={`/video/${item?.id?.videoId}`} className="block">
+        <div className="relative w-full aspect-video">
+          <img
+            src={item?.snippet?.thumbnails?.high?.url}
             alt={item?.snippet?.title}
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px 8px 0 0",
-            }}
+            className="w-full h-full object-cover rounded-t-lg"
           />
-        </Box>
+        </div>
       </Link>
 
       {/* Content */}
-      <CardContent sx={{ flexGrow: 1, p: 1.5 }}>
+      <div className="flex-grow p-3">
         <Link
           to={`/channel/${item?.snippet?.channelId}`}
-          style={{ textDecoration: "none", color: "inherit" }}
+          className="flex gap-3 items-start text-black no-underline"
         >
-          <Stack direction="row" alignItems="flex-start" spacing={1.5}>
-            {/* Avatar */}
-            <Avatar
-              sx={{ height: 45, width: 45 }}
-              src={item?.snippet?.thumbnails?.high?.url}
-              imgProps={{ style: { objectFit: "cover" } }}
-            />
+          {/* Avatar */}
+          <img
+            src={item?.snippet?.thumbnails?.high?.url}
+            alt="avatar"
+            className="w-11 h-11 rounded-full object-cover"
+          />
 
-            {/* Text */}
-            <Box>
-              {/* Title */}
-              <Typography
-                variant="subtitle1"
-                fontWeight="bold"
-                sx={{
-                  maxWidth: 250,
-                  lineHeight: 1.3,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2, // faqat 2 qator
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {item?.snippet?.title}
-              </Typography>
+          {/* Text */}
+          <div className="flex flex-col">
+            {/* Title */}
+            <h3
+              className="
+                font-bold leading-snug max-w-[250px]
+                line-clamp-2
+              "
+            >
+              {item?.snippet?.title}
+            </h3>
 
-              {/* Channel */}
-              <Stack
-                sx={{
-                  cursor: "pointer",
-                  "&:hover .MuiTypography-root": { color: "red" },
-                }}
-                direction="row"
-                alignItems="center"
-                spacing={0.5}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  {item?.snippet?.channelTitle}
-                </Typography>
-                <Checkbox
-                  disabled
-                  checked
-                  sx={{
-                    padding: 0,
-                    "& .MuiSvgIcon-root": { fontSize: 16 },
-                  }}
-                />
-              </Stack>
+            {/* Channel */}
+            <div
+              className="
+                flex items-center gap-1 cursor-pointer
+                hover:text-red-500 transition-colors
+              "
+            >
+              <p className="text-sm text-gray-600">{item?.snippet?.channelTitle}</p>
+              <input type="checkbox" checked readOnly disabled className="w-3 h-3" />
+            </div>
 
-              {/* Views + Time */}
-              <Typography variant="body2" color="text.secondary">
-                {`${item?.statistics?.viewCount} views • ${moment(
-                  item?.snippet?.publishedAt
-                ).fromNow()}`}
-              </Typography>
-            </Box>
-          </Stack>
+            {/* Views + Time */}
+            <p className="text-sm text-gray-500">
+              {`${item?.statistics?.viewCount} views • ${moment(
+                item?.snippet?.publishedAt
+              ).fromNow()}`}
+            </p>
+          </div>
         </Link>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

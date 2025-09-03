@@ -1,18 +1,17 @@
-import { React, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Apiservice } from "../Service/api.service";
-import { Box, Container, Typography } from "@mui/material";
 import Videos from "../Videos/Videos";
 
 const SearchItems = () => {
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get("search") || "";
+
   useEffect(() => {
     setSearchParams({ query_search: id });
-  }, [id]);
-  console.log();
+  }, [id, setSearchParams]);
+
   const { data, isLoading, error, isError } = useQuery(
     ["search-query", id],
     () => Apiservice.fetching(`search?part=snippet&q=${id}`),
@@ -20,29 +19,28 @@ const SearchItems = () => {
       refetchOnWindowFocus: false,
     }
   );
+
   return (
-    <Box>
-      <Container maxWidth={"90%"}>
-        <Typography
-          sx={{ fontWeight: "bold", my: 2, fontFamily: "sans-serif" }}
-        >
-          {isError ? (
-            " "
-          ) : (
-            <span>
-              Search results for <span style={{ color: "red" }}>{id}</span> {""}
-              videos
-            </span>
-          )}
-        </Typography>
-        <Videos
-          data={data}
-          isLoading={isLoading}
-          error={error}
-          isError={isError}
-        />
-      </Container>
-    </Box>
+    <div className="w-full max-w-[1920px] mx-auto px-5">
+      {/* Title */}
+      <h2 className="font-bold my-4 font-sans text-lg">
+        {isError ? (
+          ""
+        ) : (
+          <>
+            Search results for <span className="text-red-500">{id}</span> videos
+          </>
+        )}
+      </h2>
+
+      {/* Videos list */}
+      <Videos
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        isError={isError}
+      />
+    </div>
   );
 };
 

@@ -2,14 +2,6 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Apiservice } from "../Service/api.service";
-import {
-  Avatar,
-  Box,
-  Container,
-  Stack,
-  Typography,
-  Checkbox,
-} from "@mui/material";
 import ChannelVidoes from "./Channel-videos";
 
 const Channel = () => {
@@ -22,61 +14,47 @@ const Channel = () => {
     }
   );
 
+  if (isLoading) {
+    return (
+      <p className="text-center font-bold text-lg mt-5">Loading...</p>
+    );
+  }
+
+  if (isError) {
+    return (
+      <p className="text-center text-red-500 font-semibold mt-5">
+        {error.message}
+      </p>
+    );
+  }
+
   return (
-    <Stack sx={{maxWidth:"1920px", margin:"0 auto", width:"100%"}}>
-      <Box mt={3} sm={{ border: "1px solid red" }}>
-        {isLoading && isLoading ? (
-          <Typography
-            sx={{
-              textAlign: "center",
-              fontFamily: "normal",
-              fontWeight: "bold",
-              fontSize: 20,
-            }}
-          >
-            Loading....
-          </Typography>
-        ) : (
-          data && (
-            <Box
-              sx={{
-                width: "100%",
-                margin: "0 auto",
-              }}
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src={data?.items[0]?.brandingSettings?.image?.bannerExternalUrl}
-                sx={{ width: 120, height: 120, margin: "0 auto" }}
-              />
-              <Box
-                sx={{
-                  maxWidth: "sm",
-                  textAlign: "center",
-                  fontFamily: "Monospace",
-                  margin: "15px auto",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: "normal",
-                    fontWeight: "bold",
-                    fontSize: 20,
-                  }}
-                >
-                  {data?.items[0]?.brandingSettings?.channel?.title}
-                  <Checkbox disabled checked />
-                </Typography>
-                <Typography sx={{}}>
-                  {data?.items[0]?.brandingSettings?.channel?.description}
-                </Typography>
-              </Box>
-              <ChannelVidoes name={name} />
-            </Box>
-          )
-        )}
-      </Box>
-    </Stack>
+    <div className="max-w-[1920px] w-full mx-auto px-2">
+      {data && (
+        <div className="w-full mx-auto">
+          {/* Banner Avatar */}
+          <img
+            className="w-32 h-32 mx-auto rounded-full object-cover"
+            src={data?.items[0]?.brandingSettings?.image?.bannerExternalUrl}
+            alt="Channel banner"
+          />
+
+          {/* Channel Info */}
+          <div className="max-w-lg text-center font-mono mt-4 mx-auto">
+            <h2 className="font-bold text-xl flex items-center justify-center gap-2">
+              {data?.items[0]?.brandingSettings?.channel?.title}
+              <input type="checkbox" checked readOnly disabled />
+            </h2>
+            <p className="text-gray-700 mt-2">
+              {data?.items[0]?.brandingSettings?.channel?.description}
+            </p>
+          </div>
+
+          {/* Channel Videos */}
+          <ChannelVidoes name={name} />
+        </div>
+      )}
+    </div>
   );
 };
 
