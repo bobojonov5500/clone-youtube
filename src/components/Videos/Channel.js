@@ -29,7 +29,7 @@ const Channel = () => {
   }
 
   return (
-    <div className="max-w-[1920px] w-full mx-auto px-2">
+    <div className="max-w-[1920px] w-full mx-auto py-4 px-2">
       {data && (
         <div className="w-full mx-auto">
           {/* Banner Avatar */}

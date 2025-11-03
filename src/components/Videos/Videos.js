@@ -1,4 +1,3 @@
-import React from "react";
 import VideoCard from "./Video-card";
 import { MagnifyingGlass } from "react-loader-spinner";
 
@@ -23,8 +22,8 @@ const Videos = ({ data, error, isError, isLoading }) => {
   }
 
   return (
-    <div className="max-w-[1920px] w-full mx-auto ">
-      <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+    <div className="max-w-[1920px] pb-4 w-full mx-auto ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 p-2">
         {data?.items.map((item, index) => (
           <VideoCard key={index} item={item} />
         ))}

@@ -29,7 +29,7 @@ const Home = () => {
 
       {/* Main content */}
       <div className="w-full max-w-[1920px] mx-auto px-5 h-[90vh]">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold my-3">
           {selectedCategory} <span className="text-red-500">videos</span>
         </h2>
 

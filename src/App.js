@@ -1,10 +1,4 @@
-import {
-  Routes,
-  Route,
-  useParams,
-  useLocation,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
 import Home from "./components/Home/Home";
@@ -27,7 +21,7 @@ function App() {
           <Route path="/search/:id" element={<SearchItems />} />
           <Route path="/channel/:name" element={<Channel />} />
           <Route path="/video/:videoId" element={<WatchVideo />} />
-        </Routes> 
+        </Routes>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </div>

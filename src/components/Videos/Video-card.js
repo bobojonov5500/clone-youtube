@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 const VideoCard = ({ item }) => {
   return (
@@ -56,7 +57,7 @@ const VideoCard = ({ item }) => {
               "
             >
               <p className="text-sm text-gray-600">{item?.snippet?.channelTitle}</p>
-              <input type="checkbox" checked readOnly disabled className="w-3 h-3" />
+              <IoCheckmarkCircleSharp />
             </div>
 
             {/* Views + Time */}

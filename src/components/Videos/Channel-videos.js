@@ -23,11 +23,14 @@ const ChannelVideos = ({ name }) => {
   }
 
   return (
-    <div className="flex flex-wrap justify-between w-full px-5">
+    <div className="grid grid-cols-1 my-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 w-full gap-4 px-5">
       {data?.items.map((item, index) => (
         <div
           key={index}
-          className="w-full sm:w-[360px] md:w-[300px] mt-4 bg-white rounded-lg shadow hover:shadow-lg transition"
+          className="h-full flex flex-col cursor-pointer
+        transition-transform duration-200 ease-in-out
+        hover:-translate-y-1 hover:shadow-md rounded-lg
+        shadow-md "
         >
           {/* Thumbnail */}
           <Link to={`/video/${item?.id?.videoId}`} className="block">
